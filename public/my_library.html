@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 서재 - 내 손안의 도서관</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="topbar">
+        <a href="/">
+            <div class="logo">
+                OPEN-Library
+            </div>
+        </a>
+        <div class="topright" id="userNav">
+            <!-- 여기에 로그인 상태에 따라 버튼이 들어감 -->
+        </div>
+    </div>
+
+    <main class="app">
+        <div class="results-container">
+            <h2 style="margin-bottom: 20px;">📖 내 서재</h2>
+            <p style="margin-bottom: 30px; color: var(--text-secondary);">내가 예약한 도서 목록입니다.</p>
+            <div id="reservationList" class="book-grid">
+                <!-- 예약한 책들이 여기에 표시됨 -->
+            </div>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+        // 내 서재 페이지 전용 로직
+        document.addEventListener('DOMContentLoaded', async () => {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                alert('로그인이 필요한 페이지입니다.');
+                window.location.href = '/login.html';
+                return;
+            }
+
+            const listContainer = document.getElementById('reservationList');
+
+            try {
+                const response = await fetch(`/api/user/${currentUser.id}/reservations`);
+                const result = await response.json();
+
+                if (result.success && result.reservations.length > 0) {
+                    listContainer.innerHTML = result.reservations.map(res => {
+                        console.log('Reservation:', res); // 디버깅용 로그
+                        // 날짜 포맷팅
+                        const dueDate = res.due_date ? res.due_date : '정보 없음';
+                        // extension_count가 0이거나 NULL이면 연장 가능
+                        const canExtend = (res.extension_count === 0 || res.extension_count === null);
+
+                        return `
+                        <div class="book-card">
+                            <img src="${res.imgUrl}" alt="${res.title}" class="book-cover">
+                            <div class="book-info">
+                                <div class="book-title">${res.title}</div>
+                                <div class="book-author">${res.author}</div>
+                                <p class="reservation-date">예약일: ${res.date}</p>
+                                <p class="reservation-date" style="color: #D32F2F; font-weight: bold;">반납 예정일: ${dueDate}</p>
+                                
+                                <div class="button-group" style="display: flex; gap: 8px; margin-top: 8px;">
+                                    <button class="btn-primary" style="padding: 6px 12px; font-size: 0.9rem;"
+                                        onclick="extendBook(${res.reservation_id}, ${currentUser.id})"
+                                        ${!canExtend ? 'disabled style="background-color: #ccc; cursor: not-allowed;"' : ''}>
+                                        ${canExtend ? '연장하기' : '연장완료'}
+                                    </button>
+                                    <button class="btn-primary" style="padding: 6px 12px; font-size: 0.9rem;"
+                                        onclick="checkReservation(${res.reservation_id}, ${currentUser.id})">
+                                        예약확인하기
+                                    </button>
+                                    <button class="btn-text" style="padding: 6px 12px; font-size: 0.9rem; color: #D32F2F; border: 1px solid #D32F2F;"
+                                        onclick="cancelBook(${res.reservation_id}, ${currentUser.id})">
+                                        예약취소
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `}).join('');
+                } else {
+                    listContainer.innerHTML = '<p>아직 예약한 도서가 없습니다.</p>';
+                }
+            } catch (error) {
+                console.error(error);
+                listContainer.innerHTML = '<p>목록을 불러오는 중 오류가 발생했습니다.</p>';
+            }
+        });
+
+        async function checkReservation(reservationId, userId){
+            
+        }
+
+        async function extendBook(reservationId, userId) {
+            if (!confirm('반납 기한을 7일 연장하시겠습니까? (1회만 가능)')) return;
+
+            try {
+                const response = await fetch('/api/extend', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ reservationId, userId })
+                });
+                const result = await response.json();
+                alert(result.message);
+                if (result.success) {
+                    location.reload();
+                }
+            } catch (error) {
+                console.error(error);
+                alert('오류가 발생했습니다.');
+            }
+        }
+
+        async function cancelBook(reservationId, userId) {
+            if (!confirm('정말로 예약을 취소하시겠습니까?')) return;
+
+            try {
+                const response = await fetch('/api/cancel', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ reservationId, userId })
+                });
+                const result = await response.json();
+                alert(result.message);
+                if (result.success) {
+                    location.reload();
+                }
+            } catch (error) {
+                console.error(error);
+                alert('오류가 발생했습니다.');
+            }
+        }
+    </script>
+</body>
+
+</html>

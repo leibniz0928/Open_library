@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 상세 정보</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="topbar">
+        <a href="/">
+            <div class="logo">
+                OPEN-Library
+            </div>
+        </a>
+        <div class="topright">
+            <button id="logIn" class="btn-text">로그인</button>
+            <button id="signUp" class="btn-primary">회원가입</button>
+            <button id="myLib" class="btn-text">나의 도서관</button>
+        </div>
+    </div>
+
+    <main class="app">
+        <div class="back-link-container">
+            <a href="index.html" class="btn-back">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                검색 화면으로 돌아가기
+            </a>
+        </div>
+
+        <div class="detail-container">
+            <div>
+                <img id="d-img" src="" alt="도서 이미지" class="detail-img">
+            </div>
+
+            <div class="detail-info">
+                <h1 id="d-title" class="detail-title">로딩 중...</h1>
+                <div class="detail-meta">
+                    <p><strong>저자:</strong> <span id="d-author">-</span></p>
+                    <p><strong>청구기호:</strong> <span id="d-callNum">-</span></p>
+                    <p><strong>출판사:</strong> <span id="d-publisher">-</span></p>
+                    <p><strong>위치:</strong> <span id="d-location">-</span></p>
+                    <p><strong>상태:</strong> <span id="d-status">-</span></p>
+                </div>
+                <button id="btn-rent" class="btn-primary btn-rent">대출하기</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+        // 페이지가 열리자마자 실행되는 코드
+        // window.onload 대신 addEventListener 사용 권장하지만 기존 코드 유지하면서 수정
+        window.addEventListener('load', async function () {
+            // 1. URL에서 ?id=... 값을 찾아냅니다.
+            const params = new URLSearchParams(window.location.search);
+            const bookId = params.get('id');
+
+            if (!bookId) {
+                alert("잘못된 접근입니다.");
+                location.href = 'index.html';
+                return;
+            }
+
+            try {
+                // 2. 서버에게 ID로 책 정보를 달라고 요청합니다. (API 활용)
+                const response = await fetch(`/book/${bookId}`);
+                if (!response.ok) throw new Error("정보 없음");
+
+                const book = await response.json();
+
+                // 3. 화면에 데이터를 채워 넣습니다.
+                document.getElementById('d-title').innerText = book.title;
+                if (book.callNum === "청구기호 없음") document.getElementById('d-callNum').innerText = '';
+                else document.getElementById('d-callNum').innerText = book.callNum;
+                document.getElementById('d-author').innerText = book.author;
+                document.getElementById('d-publisher').innerText = book.publisher || '정보 없음';
+                document.getElementById('d-location').innerText = book.location;
+
+                // 이미지 처리
+                const imgUrl = book.imgUrl || '../img/book_img.png';
+                document.getElementById('d-img').src = imgUrl;
+
+                // 상태 처리
+                const statusEl = document.getElementById('d-status');
+                statusEl.innerText = book.status;
+
+                // 대출/예약 버튼 상태 및 로직
+                const btnRent = document.getElementById('btn-rent');
+                if (book.status.includes("가능")) {
+                    btnRent.innerText = "예약하기";
+                    btnRent.onclick = async () => {
+                        // 로그인 체크
+                        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                        if (!currentUser) {
+                            alert('예약하려면 로그인이 필요합니다.');
+                            location.href = '/login.html';
+                            return;
+                        }
+
+                        // 예약요청
+                        if (confirm(`${book.title} 도서를 예약하시겠습니까?`)) {
+                            try {
+                                const res = await fetch('/api/reserve', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ userId: currentUser.id, bookId: book.id })
+                                });
+                                const result = await res.json();
+                                alert(result.message);
+                                if (result.success) {
+                                    location.reload(); // 상태 업데이트 등을 위해 리로드
+                                }
+                            } catch (err) {
+                                console.error(err);
+                                alert('예약 중 오류 발생');
+                            }
+                        }
+                    };
+                } else {
+                    btnRent.innerText = "대출 중/예약불가";
+                    btnRent.disabled = true;
+                    btnRent.classList.add('status-unavailable');
+                }
+
+            } catch (error) {
+                console.error(error);
+                alert("책 정보를 불러오지 못했습니다.");
+                location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+
+</html>

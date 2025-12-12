@@ -1,0 +1,183 @@
+{
+    "success": true,
+    "code": "success.retrieved",
+    "message": "조회되었습니다.",
+    "data": {
+        "isFuzzy": false,
+        "totalCount": 25275,
+        "offset": 0,
+        "max": 3,
+        "abc": null,
+        "list": [
+            {
+                "id": 9283948,
+                "biblioType": {
+                    "id": 1,
+                    "name": "국내서단행본",
+                    "materialType": {
+                        "id": 1,
+                        "name": "단행본"
+                    },
+                    "biblioSchema": {
+                        "id": 1,
+                        "name": "KORMARC",
+                        "isMarc": true
+                    }
+                },
+                "thumbnailUrl": "https://image.aladin.co.kr/product/35309/1/cover200/k172035279_1.jpg",
+                "isbn": "9791161759272",
+                "issn": null,
+                "titleStatement": "(현업 해커에게 직접 듣는) 임베디드 해킹 렉처노트 =Embedded hacking lecture notes",
+                "author": "ahrik",
+                "publication": "서울 : 에이콘, 2025",
+                "etcContent": "{\"DDC\":\"005.8\",\"PERSONAL_NAME\":\"ahrik\",\"PAGE\":\"502 p.\",\"HEIGHT\":\"24 cm\"}",
+                "branchVolumes": [
+                    {
+                        "id": 1,
+                        "name": "중앙도서관",
+                        "isCr": false,
+                        "volume": "005.8 아298ㅇ",
+                        "cState": "대출가능",
+                        "cStateCode": "READY",
+                        "isSubscribed": null,
+                        "hasItem": true
+                    }
+                ],
+                "erSources": [],
+                "resources": null,
+                "newResources": null,
+                "similars": [
+                    {
+                        "id": 4213996,
+                        "titleStatement": "사이버 해킹        : 개인보안, 해커는 어디까지 침투할 수 있는가?        : Scientific American",
+                        "publication": "서울 : 한림, 2016"
+                    },
+                    {
+                        "id": 4227346,
+                        "titleStatement": "어서 와 해킹은 처음이지 :칼리리눅스로 배우는 해킹과 보안",
+                        "publication": "서울 :비팬북스 :러닝스페이스,2016"
+                    },
+                    {
+                        "id": 4228031,
+                        "titleStatement": "네트워크 해킹과 보안 : 정보 보안 개론과 실습",
+                        "publication": "서울 : 한빛아카데미, 2016"
+                    }
+                ],
+                "dateReceived": "2025-01-22"
+            },
+            {
+                "id": 9293480,
+                "biblioType": {
+                    "id": 1,
+                    "name": "국내서단행본",
+                    "materialType": {
+                        "id": 1,
+                        "name": "단행본"
+                    },
+                    "biblioSchema": {
+                        "id": 1,
+                        "name": "KORMARC",
+                        "isMarc": true
+                    }
+                },
+                "thumbnailUrl": "https://image.aladin.co.kr/product/35363/34/cover200/k342035996_1.jpg",
+                "isbn": "9791193926789",
+                "issn": null,
+                "titleStatement": "테스트 너머의 QA 엔지니어링 : QA가 되는 법부터 QA의 역할과 사고방식, 품질 강화 및 버그 예방 방법, 포트폴리오 만들기까지",
+                "author": "김명관",
+                "publication": "서울 : 제이펍, 2025",
+                "etcContent": "{\"DDC\":\"005.14\",\"PERSONAL_NAME\":\"김명관\",\"PAGE\":\"211 p.\",\"HEIGHT\":\"22 cm\"}",
+                "branchVolumes": [
+                    {
+                        "id": 1,
+                        "name": "중앙도서관",
+                        "isCr": false,
+                        "volume": "005.14 김34ㅌ",
+                        "cState": "대출가능",
+                        "cStateCode": "READY",
+                        "isSubscribed": null,
+                        "hasItem": true
+                    }
+                ],
+                "erSources": [],
+                "resources": null,
+                "newResources": null,
+                "similars": [
+                    {
+                        "id": 4430658,
+                        "titleStatement": "트러블슈팅 도커 :도커의 활용과 문제 해결 방법",
+                        "publication": "서울 :에이콘,2018"
+                    },
+                    {
+                        "id": 3536529,
+                        "titleStatement": "JIRA 시스템 구축과 활용",
+                        "publication": "의왕 :에이콘출판,2015"
+                    },
+                    {
+                        "id": 5640593,
+                        "titleStatement": "리팩터링 :코드 구조를 체계적으로 개선하여 효율적인 리팩터링 구현하기",
+                        "publication": "서울 :한빛미디어,2020"
+                    }
+                ],
+                "dateReceived": "2025-04-09"
+            },
+            {
+                "id": 9412246,
+                "biblioType": {
+                    "id": 1,
+                    "name": "국내서단행본",
+                    "materialType": {
+                        "id": 1,
+                        "name": "단행본"
+                    },
+                    "biblioSchema": {
+                        "id": 1,
+                        "name": "KORMARC",
+                        "isMarc": true
+                    }
+                },
+                "thumbnailUrl": "https://image.aladin.co.kr/product/35937/83/cover200/k902037703_1.jpg",
+                "isbn": "9791194323600",
+                "issn": null,
+                "titleStatement": "(2026) Compact 변시 청구별 민사기록연습",
+                "author": "이관형",
+                "publication": "서울 : 학연, 2025",
+                "etcContent": "{\"DDC\":\"347.05\",\"PERSONAL_NAME\":\"이관형\",\"PAGE\":\"668 p.\",\"HEIGHT\":\"26 cm\"}",
+                "branchVolumes": [
+                    {
+                        "id": 15,
+                        "name": "법학전문도서관",
+                        "isCr": false,
+                        "volume": "347.05 이15ㅋ 2025",
+                        "cState": "대출가능",
+                        "cStateCode": "READY",
+                        "isSubscribed": null,
+                        "hasItem": true
+                    }
+                ],
+                "erSources": [],
+                "resources": null,
+                "newResources": null,
+                "similars": [
+                    {
+                        "id": 5945411,
+                        "titleStatement": "(2022) Compact 변시 청구별 민사기록연습",
+                        "publication": "서울 :학연,2021"
+                    },
+                    {
+                        "id": 4216620,
+                        "titleStatement": "(핵심) 민사재판실무 =Civil procedural law and practice in a nutshell",
+                        "publication": "서울 :fides,2016"
+                    },
+                    {
+                        "id": 4240999,
+                        "titleStatement": "민사소액재판의 개선 방안에 관한 연구 =Research on improvement measures for small claims procedure in Korea",
+                        "publication": "고양시 : 사법정책연구원, 2017"
+                    }
+                ],
+                "dateReceived": "2025-04-03"
+            }
+        ],
+        "facets": []
+    }
+}
