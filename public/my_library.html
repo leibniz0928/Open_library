@@ -75,10 +75,6 @@
                                         ${!canExtend ? 'disabled style="background-color: #ccc; cursor: not-allowed;"' : ''}>
                                         ${canExtend ? '연장하기' : '연장완료'}
                                     </button>
-                                    <button class="btn-primary" style="padding: 6px 12px; font-size: 0.9rem;"
-                                        onclick="checkReservation(${res.reservation_id}, ${currentUser.id})">
-                                        예약확인하기
-                                    </button>
                                     <button class="btn-text" style="padding: 6px 12px; font-size: 0.9rem; color: #D32F2F; border: 1px solid #D32F2F;"
                                         onclick="cancelBook(${res.reservation_id}, ${currentUser.id})">
                                         예약취소
@@ -95,10 +91,6 @@
                 listContainer.innerHTML = '<p>목록을 불러오는 중 오류가 발생했습니다.</p>';
             }
         });
-
-        async function checkReservation(reservationId, userId){
-            
-        }
 
         async function extendBook(reservationId, userId) {
             if (!confirm('반납 기한을 7일 연장하시겠습니까? (1회만 가능)')) return;
